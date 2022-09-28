@@ -1,4 +1,4 @@
-import { AppBar, Box, List, ListItem, Typography } from '@mui/material'
+import { Box, List, ListItem, Typography } from '@mui/material'
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import YouTubeIcon from '@mui/icons-material/YouTube';
@@ -8,7 +8,7 @@ const social = [<InstagramIcon />, <FacebookIcon />, <YouTubeIcon />]
 
 const Footer = () => {
     return (
-        <AppBar position="static" sx={{ gap: 2, p: 2 }}>
+        <Box color="common.white" position="static" sx={{ p: 2, bgcolor: '#1976d2', color: '#efebe9' }}>
             <Typography> Made by S.McArrow just for fun </Typography>
             <Typography> © {new Date().getFullYear()} All rights reserved </Typography>
 
@@ -20,7 +20,7 @@ const Footer = () => {
                     )}
                 </List>
             </Box>
-        </AppBar >
+        </Box >
     )
 }
 

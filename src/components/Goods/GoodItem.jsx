@@ -28,7 +28,7 @@ const GoodItem = (goodsItem) => {
                 <Typography>
                     {goodsItem.price} $
                 </Typography>
-                <Button size="small" color="primary" onClick={addToOrder(goodsItem)} >
+                <Button size="small" color="primary" onClick={() => addToOrder(goodsItem)} >
                     Add to Cart
                 </Button>
             </CardActions>
