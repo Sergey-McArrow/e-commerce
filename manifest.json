@@ -1,7 +1,6 @@
 {
 	"short_name": "E-Commerce",
 	"name": "E-Commerce, Online shop",
-
 	"start_url": ".",
 	"display": "standalone",
 	"theme_color": "#000000",
