@@ -1,3 +1,7 @@
+* {
+	box-sizing: border-box;
+}
+
 body {
 	margin: 0;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -11,4 +15,58 @@ body {
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 		monospace;
+}
+main {
+	padding: 3rem 0;
+	min-height: calc(100vh - 136px - 64px);
+	width: 100%;
+}
+
+.css-1160xiw-MuiPaper-root-MuiDrawer-paper {
+	min-width: 33vw;
+}
+
+.css-fgg26q-MuiPaper-root-MuiAlert-root {
+	z-index: 10;
+	animation: slideInFromTheRight 0.5s ease-in-out;
+}
+.css-1160xiw-MuiPaper-root-MuiDrawer-paper {
+	animation: appear 0.5s ease;
+}
+
+.css-1160xiw-MuiPaper-root-MuiDrawer-paper {
+	background-color: #efebe9;
+}
+
+@keyframes slideInFromTheRight {
+	0% {
+		transform: translateX(100%);
+	}
+
+	100% {
+		transform: translateX(0%);
+	}
+}
+
+@keyframes appear {
+	0% {
+		opacity: 0;
+	}
+	25% {
+		opacity: 0.25;
+	}
+	50% {
+		opacity: 0.5;
+	}
+	75% {
+		opacity: 0.75;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.link {
+	text-decoration: none;
+	color: #efebe9;
 }
