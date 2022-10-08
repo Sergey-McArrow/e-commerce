@@ -70,3 +70,93 @@ main {
 	text-decoration: none;
 	color: #efebe9;
 }
+
+#firebaseui-auth-container {
+	height: 85vh;
+}
+
+.firebaseui-idp-list {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	list-style: none;
+
+	.firebaseui-list-item {
+		.firebaseui-idp-button {
+			width: 10rem;
+			height: 2rem;
+			display: flex;
+			align-items: center;
+			justify-content: space-evenly;
+			border-radius: 12px;
+			border: 1px solid rgba(0, 0, 0, 0.8);
+			color: #000000;
+
+			.firebaseui-idp-icon {
+				width: 1rem;
+			}
+		}
+	}
+
+	.firebaseui-idp-text-short {
+		display: none;
+	}
+}
+
+.firebaseui-card-footer {
+	text-align: center;
+}
+
+.firebaseui-id-page-sign-in {
+	width: 70%;
+	margin: 0 auto;
+
+	label {
+		padding-right: 10px;
+	}
+	button {
+		margin: 0.5rem;
+	}
+	.firebaseui-form-actions {
+		width: 10rem;
+		display: flex;
+		gap: 2rem;
+	}
+}
+
+li {
+	list-style: none;
+}
+
+.mdl-card {
+	width: 70%;
+	margin: 0 auto;
+}
+form {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+button {
+	display: inline-block;
+	padding: 0.35em 1.2em;
+	border: 0.1em solid #ffffff;
+	margin: 0 0.3em 0.3em 0;
+	border-radius: 0.12em;
+	box-sizing: border-box;
+	text-decoration: none;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	color: #ffffff;
+	text-align: center;
+	transition: all 0.2s;
+	background-color: #3f51b5;
+
+	&:hover {
+		color: #90a4ae;
+		background-color: #ffffff;
+	}
+}

@@ -1,11 +1,14 @@
-import { AppBar, Badge, Button, IconButton, Toolbar, Typography } from '@mui/material';
-import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
-import MenuIcon from '@mui/icons-material/Menu';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { AppBar, Avatar, Badge, Button, IconButton, Toolbar, Typography } from '@mui/material'
+import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined'
+import MenuIcon from '@mui/icons-material/Menu'
+import Brightness4Icon from '@mui/icons-material/Brightness4'
+import Brightness7Icon from '@mui/icons-material/Brightness7'
 
 import React, { useContext } from 'react'
+import { Link } from "react-router-dom"
+
 import { Context } from '../../context'
+import { deepPurple } from '@mui/material/colors'
 
 const Header = ({ setTheme, theming }) => {
     const { setCartOpen, orders } = useContext(Context)
@@ -33,21 +36,21 @@ const Header = ({ setTheme, theming }) => {
                         </Typography>
                     </a>
                 </Typography>
+                <Link to="e-commerce" style={{ textDecoration: 'none' }}>
+                    <Button variant="text">Go home</Button>
+                </Link>
                 <Button sx={{ color: 'whitesmoke' }} onClick={() => setTheme(prev => !prev)}> {!theming ? <Brightness7Icon /> : <Brightness4Icon />}</Button>
                 <Button color="inherit" onClick={setCartOpen}>
                     <Badge badgeContent={ordersLength} color="primary">
                         <ShoppingCartCheckoutOutlinedIcon />
                     </Badge>
                 </Button>
+                <Link to='/login' style={{ textDecoration: 'none' }}>
+                    <Avatar sx={{ bgcolor: deepPurple[500] }}  >OP</Avatar>
+                </Link>
             </Toolbar>
         </AppBar>
-    );
+    )
 }
-
-
-
-
-
-
 
 export { Header }
