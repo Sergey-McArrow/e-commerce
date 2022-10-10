@@ -94,11 +94,6 @@ const reducer = (state, { type, payload }) => {
 				images: state.images.filter(img => img.name !== payload),
 			}
 
-		case 'ADD_TO_DB':
-			return {
-				...state,
-			}
-
 		default:
 			return state
 	}

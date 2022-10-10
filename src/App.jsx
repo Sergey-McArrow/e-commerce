@@ -40,7 +40,6 @@ function App() {
 
 		<ThemeProvider theme={theming ? theme : darkTheme}>
 			<ContextProvider>
-
 				<CssBaseline />
 				<Header setTheme={setTheme} theming={theming} />
 				<Routes>

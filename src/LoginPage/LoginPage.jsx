@@ -2,11 +2,8 @@ import React, { useEffect } from 'react'
 
 import { LinearProgress } from '@mui/material'
 
-import { FirebaseApp, ui, uiConfig } from '../firebase'
+import { ui, uiConfig } from '../firebase'
 
-
-console.log(FirebaseApp)
-console.log(ui)
 
 const LoginPage = () => {
     useEffect(() => {

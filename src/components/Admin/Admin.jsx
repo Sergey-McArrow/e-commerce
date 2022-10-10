@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useForm } from "react-hook-form"
 
 import { Box, Button, Container, Paper, TextField, Typography } from '@mui/material'
@@ -6,11 +6,16 @@ import { FilePreview } from './FilePreview'
 import { uploader } from '../../firebase'
 
 import { Context } from '../../context'
+import { ModalApprove } from './ModalApprove'
 
 
 const Admin = () => {
     const { setImages, images } = useContext(Context)
+    const [imageURl, setUrl] = useState('')
+    const [goodsItem, setgoodsItem] = useState(null)
+    const [isOpenModal, setIsOpenModal] = useState(false)
     const { register, handleSubmit } = useForm()
+
 
     const filePicker = useRef(null)
 
@@ -21,57 +26,37 @@ const Admin = () => {
     const handleUpload = e => {
         setImages(Array.from(e.target.files))
     }
-    // TODO: function adding path of img to goodItem & add it to db 
-    const onSubmit = data => console.log(data)
 
-    useEffect(() => { }, [])
+    // TODO: function adding path of img to goodItem & add it to db 
+    const uploaderHandler = () => {
+        uploader(images, getImageURL)
+        handleOpen()
+    }
+    const handleOpen = () => { setIsOpenModal(!isOpenModal) }
+
+    const onSubmit = data => {
+        return new Promise((resolve) => {
+            resolve(data)
+        }).then(setgoodsItem(data))
+    }
+
+    const getImageURL = (url) => {
+        setUrl(url)
+    }
+
+    useEffect(() => {
+    }, [])
     return (
 
         <Container className='uploadContent' >
-            <Box className="uploadContent_actions" sx={{
-                display: ' flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: '2rem',
-                p: '2rem',
-                w: 1 / 1
-            }}>
-                <Typography>
-                    Select files to add
-                </Typography>
-
-                <input
-                    onChange={handleUpload}
-                    style={{ display: 'none' }}
-                    type="file"
-                    id="file"
-                    multiple
-                    ref={filePicker}
-                    accept=".jpg,.jpeg,.png,.gif,.svg,.ico,.bmp,.dib,.tif,.tiff" />
-                <Button
-                    id="open"
-                    type="submit"
-                    name="action"
-                    variant='outlined'
-                    onClick={handlePick}>
-                    Select
-                </Button>
-                {/* TODO: delete temporary button */}
-                <Button
-                    id="upload"
-                    type="submit"
-                    name="action"
-                    variant='contained'
-                    onClick={() => uploader(images)}>
-                    Upload
-                </Button>
-            </Box>
-
-            <Box sx={{ display: 'flex', gap: 5, pb: 5 }}>
+            {goodsItem ? (<ModalApprove open={isOpenModal} handleOpen={handleOpen} imageURl={imageURl} goodsItem={goodsItem} />
+            ) : null}
+            <Box sx={{ display: 'flex', gap: 5, p: '2rem' }}>
                 <Paper elevation={6} component='form'
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
+                        gap: 4,
                         width: 1 / 3,
                         px: '2rem',
                         '& .MuiTextField-root': { width: '25ch' },
@@ -105,11 +90,33 @@ const Admin = () => {
                         type='number'
                         {...register("price", { required: true, maxLength: 20 })}
                     />
+                    <Box sx={{ display: 'flex', gap: 3, alignItems: 'center' }}>
+                        <Typography>
+                            Select files to add
+                        </Typography>
+                        <input
+                            onChange={handleUpload}
+                            style={{ display: 'none' }}
+                            type="file"
+                            id="file"
+                            multiple
+                            ref={filePicker}
+                            accept=".jpg,.jpeg,.png,.gif,.svg,.ico,.bmp,.dib,.tif,.tiff" />
+                        <Button
+                            id="open"
+                            type="submit"
+                            name="action"
+                            variant='outlined'
+                            onClick={handlePick}>
+                            Select
+                        </Button>
+                    </Box>
+
                     <Button
                         type='submit'
                         variant='contained'
-                        onClick={() => uploader(images)}>
-                        Send
+                        onClick={uploaderHandler}>
+                        Upload
                     </Button>
                 </Paper>
                 <Box sx={{ width: 2 / 3 }}>

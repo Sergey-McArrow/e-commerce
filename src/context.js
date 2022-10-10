@@ -9,7 +9,6 @@ const initialState = {
 	alertName: '',
 	isCartOpen: false,
 	images: [],
-	goodsItem: [],
 }
 
 export const Context = createContext()
@@ -40,13 +39,9 @@ const ContextProvider = ({ children }) => {
 	}
 	value.setImages = data => {
 		dispatch({ type: 'SET_IMAGES', payload: data })
-		console.log(data)
 	}
 	value.removeImages = name => {
 		dispatch({ type: 'REMOVE_IMAGE', payload: name })
-	}
-	value.addToDB = item => {
-		dispatch({ type: 'ADD_TO_DB', payload: item })
 	}
 
 	return <Context.Provider value={value}>{children}</Context.Provider>
