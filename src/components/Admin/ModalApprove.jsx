@@ -2,7 +2,7 @@ import { Box, Button, Modal, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 import { writeDataToDB } from '../../firebase'
 
-const ModalApprove = ({ open, handleOpen, imageURl, goodsItem }) => {
+const ModalApprove = ({ open, handleOpen, goodsItem, reset }) => {
 
     const style = {
         position: 'absolute',
@@ -17,8 +17,9 @@ const ModalApprove = ({ open, handleOpen, imageURl, goodsItem }) => {
         p: 4,
     }
     const handleSend = () => {
-        writeDataToDB(goodsItem, imageURl)
+        writeDataToDB(goodsItem)
         handleOpen()
+        reset()
     }
 
     useEffect(() => {

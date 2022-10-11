@@ -14,8 +14,8 @@ const Admin = () => {
     const [imageURl, setUrl] = useState('')
     const [goodsItem, setgoodsItem] = useState(null)
     const [isOpenModal, setIsOpenModal] = useState(false)
-    const { register, handleSubmit } = useForm()
-
+    const [buttonState, setButtonState] = useState(false)
+    const { register, handleSubmit, reset } = useForm()
 
     const filePicker = useRef(null)
 
@@ -25,23 +25,29 @@ const Admin = () => {
 
     const handleUpload = e => {
         setImages(Array.from(e.target.files))
+        console.log(images)
     }
 
     // TODO: function adding path of img to goodItem & add it to db 
     const uploaderHandler = () => {
         uploader(images, getImageURL)
-        handleOpen()
+        setIsOpenModal(!isOpenModal)
+        console.log(isOpenModal)
     }
+
     const handleOpen = () => { setIsOpenModal(!isOpenModal) }
 
     const onSubmit = data => {
-        return new Promise((resolve) => {
-            resolve(data)
-        }).then(setgoodsItem(data))
+        // return new Promise((resolve) => {
+        //     resolve(data)
+        // }).then(
+        setgoodsItem(data)
+        // )
     }
 
     const getImageURL = (url) => {
         setUrl(url)
+        setButtonState(!buttonState)
     }
 
     useEffect(() => {
@@ -49,9 +55,10 @@ const Admin = () => {
     return (
 
         <Container className='uploadContent' >
-            {goodsItem ? (<ModalApprove open={isOpenModal} handleOpen={handleOpen} imageURl={imageURl} goodsItem={goodsItem} />
+            {goodsItem ? (<ModalApprove open={isOpenModal} handleOpen={handleOpen} goodsItem={goodsItem} reset={reset} />
             ) : null}
             <Box sx={{ display: 'flex', gap: 5, p: '2rem' }}>
+
                 <Paper elevation={6} component='form'
                     sx={{
                         display: 'flex',
@@ -63,6 +70,26 @@ const Admin = () => {
                     }}
                     onSubmit={handleSubmit(onSubmit)}
                 >
+                    <Box sx={{ display: 'flex', gap: 3, alignItems: 'center' }}>
+                        <Typography>
+                            Select files to add
+                        </Typography>
+                        <input
+                            onChange={handleUpload}
+                            style={{ display: 'none' }}
+                            type="file"
+                            id="file"
+                            multiple
+                            ref={filePicker}
+                            accept=".jpg,.jpeg,.png,.gif,.svg,.ico,.bmp,.dib,.tif,.tiff" />
+                        <Button
+                            id="open"
+                            name="action"
+                            variant='outlined'
+                            onClick={handlePick}>
+                            Select
+                        </Button>
+                    </Box>
                     <TextField
                         required
                         id="outlined-required"
@@ -78,7 +105,6 @@ const Admin = () => {
                         margin="normal"
                         helperText="Enter Description here"
                         {...register("description", { required: true, maxLength: 50 })}
-
                     />
                     <TextField
                         required
@@ -90,33 +116,22 @@ const Admin = () => {
                         type='number'
                         {...register("price", { required: true, maxLength: 20 })}
                     />
-                    <Box sx={{ display: 'flex', gap: 3, alignItems: 'center' }}>
-                        <Typography>
-                            Select files to add
-                        </Typography>
-                        <input
-                            onChange={handleUpload}
-                            style={{ display: 'none' }}
-                            type="file"
-                            id="file"
-                            multiple
-                            ref={filePicker}
-                            accept=".jpg,.jpeg,.png,.gif,.svg,.ico,.bmp,.dib,.tif,.tiff" />
-                        <Button
-                            id="open"
-                            type="submit"
-                            name="action"
-                            variant='outlined'
-                            onClick={handlePick}>
-                            Select
-                        </Button>
-                    </Box>
+                    <TextField
+                        required
+                        value={imageURl}
+                        id="outlined-required"
+                        label="SRC"
+                        margin="normal"
+                        helperText="SRC"
+                        {...register("src", { required: true })}
+                    />
 
                     <Button
+                        // disabled={buttonState}
                         type='submit'
                         variant='contained'
                         onClick={uploaderHandler}>
-                        Upload
+                        Upload image
                     </Button>
                 </Paper>
                 <Box sx={{ width: 2 / 3 }}>
@@ -132,6 +147,7 @@ const Admin = () => {
                             p: '2rem',
                             minHeight: '50rem'
                         }}>
+
                         {images.length ? (images.map(file => <FilePreview key={file.name} file={file} />)) : null}
                     </Paper>
                 </Box>

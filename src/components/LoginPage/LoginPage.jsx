@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 import { LinearProgress } from '@mui/material'
 
-import { ui, uiConfig } from '../firebase'
+import { ui, uiConfig } from '../../firebase'
 
 
 const LoginPage = () => {

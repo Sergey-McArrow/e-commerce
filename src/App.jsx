@@ -7,7 +7,7 @@ import {
 import { Header } from './components/Header'
 import { Main } from './components/Main'
 import { Footer } from './components/Footer'
-import { LoginPage } from './LoginPage'
+import { LoginPage } from './components/LoginPage'
 import { Admin } from './components/Admin'
 import { ContextProvider } from './context'
 
