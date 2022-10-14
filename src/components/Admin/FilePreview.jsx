@@ -1,14 +1,13 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 
 import { IconButton, ImageListItem, ImageListItemBar } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { bytesToSize } from '../../helpers'
 
-import { Context } from '../../context'
 
-const FilePreview = ({ file }) => {
+const FilePreview = ({ file, removeImages }) => {
     const [image, setImg] = useState('')
-    const { removeImages } = useContext(Context)
+
 
     const reader = new FileReader()
     reader.onload = e => { setImg(e.target.result) }

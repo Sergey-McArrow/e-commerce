@@ -25,7 +25,7 @@ const ModalApprove = ({ open, handleOpen, goodsItem, reset }) => {
     useEffect(() => {
     }, [])
     // const { title, description, price } = goodsItem
-
+    console.log(open)
     return (
         <Modal
             open={open}

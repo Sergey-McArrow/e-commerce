@@ -1,20 +1,20 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useForm } from "react-hook-form"
 
 import { Box, Button, Container, Paper, TextField, Typography } from '@mui/material'
 import { FilePreview } from './FilePreview'
 import { uploader } from '../../firebase'
 
-import { Context } from '../../context'
 import { ModalApprove } from './ModalApprove'
 
 
 const Admin = () => {
-    const { setImages, images } = useContext(Context)
+    const [images, setImages] = useState([])
     const [imageURl, setUrl] = useState('')
     const [goodsItem, setgoodsItem] = useState(null)
     const [isOpenModal, setIsOpenModal] = useState(false)
-    const [buttonState, setButtonState] = useState(false)
+    const [buttonState, setButtonState] = useState(true)
+
     const { register, handleSubmit, reset } = useForm()
 
     const filePicker = useRef(null)
@@ -23,32 +23,33 @@ const Admin = () => {
         filePicker.current.click()
     }
 
-    const handleUpload = e => {
+    const removeImages = (name) => {
+        setImages(images.filter(img => img.name !== name))
+    }
+
+    const handleUploadImades = e => {
         setImages(Array.from(e.target.files))
-        console.log(images)
     }
 
-    // TODO: function adding path of img to goodItem & add it to db 
-    const uploaderHandler = () => {
+    const getImageURL = (url) => setUrl(url)
+
+    const handleUploaderImadges = () => {
         uploader(images, getImageURL)
-        setIsOpenModal(!isOpenModal)
-        console.log(isOpenModal)
     }
 
-    const handleOpen = () => { setIsOpenModal(!isOpenModal) }
+    const handleOpen = () => { setIsOpenModal(prev => !prev) }
 
     const onSubmit = data => {
-        // return new Promise((resolve) => {
-        //     resolve(data)
-        // }).then(
         setgoodsItem(data)
-        // )
+        setButtonState(prev => !prev)
+    }
+    const handleUploadToDB = () => {
+        setIsOpenModal(true)
+        setButtonState(prev => !prev)
+        setUrl('')
+
     }
 
-    const getImageURL = (url) => {
-        setUrl(url)
-        setButtonState(!buttonState)
-    }
 
     useEffect(() => {
     }, [])
@@ -65,30 +66,41 @@ const Admin = () => {
                         flexDirection: 'column',
                         gap: 4,
                         width: 1 / 3,
-                        px: '2rem',
+                        p: '2rem',
                         '& .MuiTextField-root': { width: '25ch' },
                     }}
-                    onSubmit={handleSubmit(onSubmit)}
                 >
-                    <Box sx={{ display: 'flex', gap: 3, alignItems: 'center' }}>
+                    <Box sx={{ display: 'flex', gap: 3, alignItems: 'center', flexDirection: 'column' }}>
                         <Typography>
                             Select files to add
                         </Typography>
-                        <input
-                            onChange={handleUpload}
-                            style={{ display: 'none' }}
-                            type="file"
-                            id="file"
-                            multiple
-                            ref={filePicker}
-                            accept=".jpg,.jpeg,.png,.gif,.svg,.ico,.bmp,.dib,.tif,.tiff" />
-                        <Button
-                            id="open"
-                            name="action"
-                            variant='outlined'
-                            onClick={handlePick}>
-                            Select
-                        </Button>
+                        <Box sx={{
+                            display: 'flex',
+                            gap: '1rem'
+                        }}>
+                            <input
+                                onChange={handleUploadImades}
+                                style={{ display: 'none' }}
+                                type="file"
+                                id="file"
+                                multiple
+                                ref={filePicker}
+                                accept=".jpg,.jpeg,.png,.gif,.svg,.ico,.bmp,.dib,.tif,.tiff" />
+                            <Button
+                                id="open"
+                                name="action"
+                                variant='outlined'
+                                sx={{ width: '10rem' }}
+                                onClick={handlePick}>
+                                Select
+                            </Button>
+                            <Button
+                                sx={{ width: '10rem' }}
+                                variant='contained'
+                                onClick={handleUploaderImadges}>
+                                Upload image
+                            </Button>
+                        </Box>
                     </Box>
                     <TextField
                         required
@@ -125,14 +137,24 @@ const Admin = () => {
                         helperText="SRC"
                         {...register("src", { required: true })}
                     />
-
-                    <Button
-                        // disabled={buttonState}
-                        type='submit'
+                    <Box sx={{
+                        display: 'flex',
+                        gap: '1rem'
+                    }}>                        <Button
+                        sx={{ width: '10rem' }}
                         variant='contained'
-                        onClick={uploaderHandler}>
-                        Upload image
-                    </Button>
+                        type='submit'
+                        onClick={handleSubmit(onSubmit)}>
+                            Submit
+                        </Button>
+                        <Button
+                            disabled={buttonState}
+                            sx={{ width: '10rem' }}
+                            variant='outlined'
+                            onClick={handleUploadToDB}>
+                            Upload item
+                        </Button>
+                    </Box>
                 </Paper>
                 <Box sx={{ width: 2 / 3 }}>
 
@@ -145,13 +167,14 @@ const Admin = () => {
                             alignItems: 'center',
                             gap: '2rem',
                             p: '2rem',
-                            minHeight: '50rem'
+                            minHeight: '50rem',
+                            height: 1 / 1
                         }}>
 
-                        {images.length ? (images.map(file => <FilePreview key={file.name} file={file} />)) : null}
+                        {images.length ? (images.map(file => <FilePreview key={file.name} file={file} removeImages={removeImages} />)) : null}
                     </Paper>
                 </Box>
-            </Box>
+            </Box >
 
         </Container >
 
