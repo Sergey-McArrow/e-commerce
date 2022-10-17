@@ -29,7 +29,6 @@ const Root = styled('main')(({ theme }) => ({
 
 const Main = () => {
     const { setGoods, isCartOpen, alertName, loading } = useContext(Context)
-    console.log(Context)
 
     useEffect(() => {
         getItems().then(res => { setGoods(res) }).catch(err => console.error(err))

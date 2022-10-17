@@ -1,5 +1,5 @@
 import { Box, Button, Modal, Typography } from '@mui/material'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { writeDataToDB } from '../../firebase'
 
 const ModalApprove = ({ open, handleOpen, goodsItem, reset }) => {
@@ -22,10 +22,7 @@ const ModalApprove = ({ open, handleOpen, goodsItem, reset }) => {
         reset()
     }
 
-    useEffect(() => {
-    }, [])
-    // const { title, description, price } = goodsItem
-    console.log(open)
+
     return (
         <Modal
             open={open}

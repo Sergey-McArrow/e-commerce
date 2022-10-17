@@ -6,6 +6,7 @@ import { FilePreview } from './FilePreview'
 import { uploader } from '../../firebase'
 
 import { ModalApprove } from './ModalApprove'
+import { Link } from 'react-router-dom'
 
 
 const Admin = () => {
@@ -47,7 +48,7 @@ const Admin = () => {
         setIsOpenModal(true)
         setButtonState(prev => !prev)
         setUrl('')
-
+        setImages([])
     }
 
 
@@ -56,6 +57,13 @@ const Admin = () => {
     return (
 
         <Container className='uploadContent' >
+            <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
+                <Link to='/admin/items' sx={{ textDecoration: 'none' }}>
+                    <Button variant='outlined' >
+                        Added Items
+                    </Button>
+                </Link>
+            </Box>
             {goodsItem ? (<ModalApprove open={isOpenModal} handleOpen={handleOpen} goodsItem={goodsItem} reset={reset} />
             ) : null}
             <Box sx={{ display: 'flex', gap: 5, p: '2rem' }}>
@@ -134,7 +142,7 @@ const Admin = () => {
                         id="outlined-required"
                         label="SRC"
                         margin="normal"
-                        helperText="SRC"
+                        helperText="Image Link"
                         {...register("src", { required: true })}
                     />
                     <Box sx={{

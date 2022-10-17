@@ -1,67 +1,16 @@
-import firebase from 'firebase/compat/app'
-import { auth } from 'firebaseui'
-// import { getFirestore } from 'firebase/firestore'
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+
+import { storage } from './firebase.config'
+
 import {
-	getStorage,
-	ref,
-	uploadBytesResumable,
-	getDownloadURL,
-} from 'firebase/storage'
-
-import { getDatabase, ref as refference, set } from 'firebase/database'
-
-const firebaseConfig = {
-	// 	apiKey: 'AIzaSyBGjc9obtMC0E-PrkuxVGp8jFK9p1xq3Lo',
-	// 	authDomain: 'admin-panel-6259a.firebaseapp.com',
-	// 	projectId: 'admin-panel-6259a',
-	// 	storageBucket: 'admin-panel-6259a.appspot.com',
-	// 	messagingSenderId: '206055936206',
-	// 	appId: '1:206055936206:web:c4c1c064dae33a6e2f809f',
-	// 	databaseURL:
-	// 		'https://admin-panel-6259a-default-rtdb.europe-west1.firebasedatabase.app',
-	apiKey: process.env.REACT_APP_FIREBASE_KEY,
-	authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-	projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-	storageBucket: 'admin-panel-6259a.appspot.com',
-	messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
-	appId: process.env.REACT_APP_FIREBASE_APP_ID,
-	databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
-}
-
-const uiConfig = {
-	callbacks: {
-		signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-			console.log('user log')
-			redirectUrl = '/admin'
-			// User successfully signed in.
-			// Return type determines whether we continue the redirect automatically
-			// or whether we leave that to developer to handle.
-			return true
-		},
-		uiShown: function () {
-			// The widget is rendered.
-			// Hide the loader.
-			document.getElementById('loader').style.display = 'none'
-		},
-	},
-	// Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-	signInFlow: 'popup',
-	signInSuccessUrl: 'admin',
-	signInOptions: [
-		// Leave the lines as is for the providers you want to offer your users.
-		firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-		firebase.auth.EmailAuthProvider.PROVIDER_ID,
-	],
-	// Terms of service url.
-	tosUrl: '<your-tos-url>',
-	// Privacy policy url.
-	privacyPolicyUrl: '<your-privacy-policy-url>',
-}
-
-const FirebaseApp = firebase.initializeApp(firebaseConfig)
-const ui = new auth.AuthUI(firebase.auth())
-// const db = getFirestore(FirebaseApp)
-const storage = getStorage(FirebaseApp)
+	getDatabase,
+	ref as refference,
+	set,
+	child,
+	get,
+	push,
+	update,
+} from 'firebase/database'
 
 const uploader = (files, getImageURL) => {
 	files.forEach((file, index) => {
@@ -85,19 +34,14 @@ const uploader = (files, getImageURL) => {
 			},
 			() => {
 				getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
-					// return new Promise(resolve => {
-					// 	resolve(
 					getImageURL(downloadURL)
-					console.log(downloadURL)
-					// 		)
-					// })
 				})
 			},
 		)
 	})
 }
 
-const writeDataToDB = async (goodsItem, imageUrl) => {
+const writeDataToDB = async goodsItem => {
 	const { title, description, price, src } = goodsItem
 	const database = getDatabase()
 	await set(refference(database, 'goods/' + title), {
@@ -105,7 +49,60 @@ const writeDataToDB = async (goodsItem, imageUrl) => {
 		description: description,
 		price: price,
 		src: src,
+		date: new Date().toLocaleDateString('ua-UA', {
+			hour: 'numeric',
+			minute: 'numeric',
+			second: 'numeric',
+		}),
 	})
 }
+//TODO: update not duplicated
+const updateGoodsInfo = (item, oldItem) => {
+	const db = getDatabase()
+	const { title, description, price, src, date } = item
+	console.log(item, oldItem)
+	const postData = {
+		title: title,
+		description: description,
+		price: price,
+		src: src,
+		date: date,
+	}
 
-export { FirebaseApp, ui, uiConfig, uploader, writeDataToDB }
+	const updates = {}
+	updates['/goods/' + oldItem.title] = postData
+
+	return update(refference(db), updates)
+}
+
+const removeGoodsItem = title => {
+	const db = getDatabase()
+	const postData = null
+	const updates = {}
+	updates['/goods/' + title] = postData
+
+	return update(refference(db), updates)
+}
+
+const getDataFromDB = cb => {
+	const dbRef = refference(getDatabase())
+	get(child(dbRef, `goods/`))
+		.then(snapshot => {
+			if (snapshot.exists()) {
+				cb(snapshot.val())
+			} else {
+				console.log('No data available')
+			}
+		})
+		.catch(error => {
+			console.error(error)
+		})
+}
+
+export {
+	uploader,
+	writeDataToDB,
+	getDataFromDB,
+	updateGoodsInfo,
+	removeGoodsItem,
+}

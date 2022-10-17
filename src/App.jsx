@@ -7,12 +7,14 @@ import {
 import { Header } from './components/Header'
 import { Main } from './components/Main'
 import { Footer } from './components/Footer'
-import { LoginPage } from './components/LoginPage'
 import { Admin } from './components/Admin'
+import { DBPage } from './components/Admin/DBPage'
+
 import { ContextProvider } from './context'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material'
+import { RequireAuth } from './components/hoc/RequireAuth'
 
 
 const theme = createTheme({
@@ -36,16 +38,25 @@ const darkTheme = createTheme({
 
 function App() {
 	const [theming, setTheme] = useState(true)
+	const [currentUser, setCurrentUser] = useState(null)
 	return (
 
 		<ThemeProvider theme={theming ? theme : darkTheme}>
 			<ContextProvider>
 				<CssBaseline />
-				<Header setTheme={setTheme} theming={theming} />
+				<Header setTheme={setTheme} theming={theming} setCurrentUser={setCurrentUser} currentUser={currentUser} />
 				<Routes>
 					<Route path='/e-commerce' element={<Main />} />
-					<Route path='/login' element={<LoginPage />} />
-					<Route path='/admin' element={<Admin />} />
+					<Route path='/admin' element={
+						<RequireAuth currentUser={currentUser}>
+							<Admin />
+						</RequireAuth>
+					} />
+					<Route path='/admin/items' element={
+						<RequireAuth currentUser={currentUser}>
+							<DBPage />
+						</RequireAuth>
+					} />
 				</Routes>
 			</ContextProvider>
 
