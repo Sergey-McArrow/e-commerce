@@ -1,6 +1,6 @@
 {
 	"name": "e-commerce",
-	"homepage": "https://sergey-mcarrow.github.io/e-commerce/",
+	"homepage": ".",
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {

@@ -1,20 +1,19 @@
 import React, { useContext } from 'react'
-import { ListItem, Stack, ListItemText, useMediaQuery } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
-import { Close } from '@mui/icons-material';
-import { deepPurple } from '@mui/material/colors';
+import { ListItem, Stack, ListItemText, useMediaQuery } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import RemoveIcon from '@mui/icons-material/Remove'
+import { Close } from '@mui/icons-material'
 
 import { Context } from '../../context'
 
-export const CartItem = ({ id, name, price, quantity, index }) => {
+export const CartItem = ({ id, name, price, quantity }) => {
 
     const { incQuantity, decQuantity, removeFromOrder } = useContext(Context)
-    const lines = index % 2 === 0
-    const matches = useMediaQuery('(min-width:600px)');
+    const matches = useMediaQuery('(min-width:600px)')
+    console.log(quantity)
 
     return (
-        <ListItem sx={{ minHeight: 96, justifyContent: 'space-between', backgroundColor: `${lines ? deepPurple[200] : deepPurple[300]}` }}>
+        <ListItem sx={{ minHeight: 96, justifyContent: 'space-between', }}>
             <ListItemText sx={{ mr: 10, maxWidth: '30%', minWidth: '30%' }} primaryTypographyProps={{ fontSize: `${matches ? '1.8rem' : '1rem'}` }} >
                 {name}
             </ListItemText>
