@@ -4,18 +4,19 @@ import MenuIcon from '@mui/icons-material/Menu'
 import Brightness4Icon from '@mui/icons-material/Brightness4'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
 
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Context } from '../../context'
+import { Sidebar } from './Sidebar'
 
 const Header = ({ setTheme, theming }) => {
     const { setCartOpen, orders } = useContext(Context)
+    const [sidebarOpen, setSidebarOpen] = useState(false)
 
     const ordersLength = orders.reduce((sum, order) => { return sum + order.quantity }, 0)
 
-
-
     return (
         <AppBar position="static" sx={{ color: '#efebe9' }}>
+            {sidebarOpen && <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />}
             <Toolbar>
                 <IconButton
                     size="large"
@@ -23,6 +24,8 @@ const Header = ({ setTheme, theming }) => {
                     color="inherit"
                     aria-label="menu"
                     sx={{ mr: 2 }}
+                    onClick={() => setSidebarOpen(sidebarOpen => !sidebarOpen)}
+                // onClick={alert('hello')}
                 >
                     <MenuIcon />
                 </IconButton>

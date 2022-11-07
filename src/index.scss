@@ -70,3 +70,21 @@ main {
 	text-decoration: none;
 	color: #efebe9;
 }
+
+.donation-link {
+	padding: 1rem;
+	width: 100%;
+	text-decoration: none;
+	color: #212121;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.image-link {
+	background-position: center;
+	background-size: 10rem;
+	min-height: 10rem;
+	color: transparent;
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-image: url('../public/ukr.svg');
+}
