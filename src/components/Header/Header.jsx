@@ -1,8 +1,8 @@
-import { AppBar, Badge, Button, IconButton, Toolbar, Typography } from '@mui/material';
-import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
-import MenuIcon from '@mui/icons-material/Menu';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { AppBar, Badge, Button, IconButton, Toolbar, Typography } from '@mui/material'
+import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined'
+import MenuIcon from '@mui/icons-material/Menu'
+import Brightness4Icon from '@mui/icons-material/Brightness4'
+import Brightness7Icon from '@mui/icons-material/Brightness7'
 
 import React, { useContext } from 'react'
 import { Context } from '../../context'
@@ -34,14 +34,14 @@ const Header = ({ setTheme, theming }) => {
                     </a>
                 </Typography>
                 <Button sx={{ color: 'whitesmoke' }} onClick={() => setTheme(prev => !prev)}> {!theming ? <Brightness7Icon /> : <Brightness4Icon />}</Button>
-                <Button color="inherit" onClick={setCartOpen}>
+                <Button color="inherit" onClick={setCartOpen} data-testid="cart">
                     <Badge badgeContent={ordersLength} color="primary">
                         <ShoppingCartCheckoutOutlinedIcon />
                     </Badge>
                 </Button>
             </Toolbar>
         </AppBar>
-    );
+    )
 }
 
 

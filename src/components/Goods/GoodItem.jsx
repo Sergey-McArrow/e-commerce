@@ -4,7 +4,7 @@ import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typo
 import { Context } from '../../context'
 
 
-import { createTheme, responsiveFontSizes, ThemeProvider } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes, ThemeProvider } from '@mui/material/styles'
 
 
 
@@ -12,11 +12,11 @@ const GoodItem = (goodsItem) => {
     const { addToOrder } = useContext(Context)
     const { name, image, description, price } = goodsItem
 
-    const matchesM = useMediaQuery('(min-width:700px)');
-    const matchesS = useMediaQuery('(min-width:500px)');
+    const matchesM = useMediaQuery('(min-width:700px)')
+    const matchesS = useMediaQuery('(min-width:500px)')
 
-    let theme = createTheme();
-    theme = responsiveFontSizes(theme);
+    let theme = createTheme()
+    theme = responsiveFontSizes(theme)
 
     return (
         <Card sx={{ width: `${matchesM ? '30%' : matchesS ? '50%' : '90%'}`, maxWidth: `${matchesS ? '45%' : '90%'}`, flexGrow: 1, }}>
@@ -53,7 +53,7 @@ const GoodItem = (goodsItem) => {
                 <Typography>
                     {price} $
                 </Typography>
-                <Button size="small" color="primary" onClick={() => addToOrder(goodsItem)} >
+                <Button variant='outlined' size="small" color="primary" data-testid="addToCart" onClick={() => addToOrder(goodsItem)} >
                     Add to Cart
                 </Button>
             </CardActions>

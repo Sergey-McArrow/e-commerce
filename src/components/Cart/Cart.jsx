@@ -40,13 +40,14 @@ const Cart = () => {
                     ) : null}
                 <Divider />
                 <List sx={{
-                    justifyContent: 'space-between', display: 'flex',
+                    justifyContent: 'space-between', display: 'flex', gap: '0.5rem',
                     alignItems: 'center', pt: 5, flexDirection: 'column'
-                }}>
+                }}
+                    component="form"
+                >
                     {orders.length ? (
                         orders.map((order, index) =>
                             <CartItem key={order.id} {...order} index={index} />
-
                         )
 
                     ) : <ListItemText
@@ -56,7 +57,6 @@ const Cart = () => {
                     >
                         Cart is empty
                     </ListItemText>}
-                    <Divider />
                     <ListItem sx={{ justifyContent: 'space-between' }}>
                         <ListItemText variant='h3' primaryTypographyProps={{ fontSize: `${matches ? '1.8rem' : '1.2rem'}`, textAlign: 'right' }} >
                             Total:
@@ -65,12 +65,11 @@ const Cart = () => {
                             {totalPrice} $
                         </ListItemText>
                     </ListItem>
+                    {orders.length ? (<Button type='submit' onClick={() => alert(`You have successfully purchase something for ${totalPrice} USD`)} variant='contained' sx={{ width: 1 / 3, alignSelf: 'center', my: 3 }}>
+                        checkout
+                    </Button>) : null}
                 </List>
             </List>
-            <Divider />
-            {orders.length ? (<Button onClick={() => alert(`You have successfully purchase something for ${totalPrice} USD`)} variant='contained' sx={{ width: 1 / 3, alignSelf: 'center', my: 3 }}>
-                checkout
-            </Button>) : null}
         </SwipeableDrawer >
 
     )
