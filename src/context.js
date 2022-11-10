@@ -1,6 +1,6 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useReducer } from 'react'
 
-import { reducer } from './reducer';
+import { reducer } from './reducer'
 
 const initialState = {
 	goods: [],
@@ -8,35 +8,35 @@ const initialState = {
 	orders: [],
 	alertName: '',
 	isCartOpen: false,
-};
-export const Context = createContext();
+}
+export const Context = createContext()
 
 const ContextProvider = ({ children }) => {
-	const [value, dispatch] = useReducer(reducer, initialState);
+	const [value, dispatch] = useReducer(reducer, initialState)
 
 	value.setGoods = data => {
-		dispatch({ type: 'SET_GOODS', payload: data });
-	};
+		dispatch({ type: 'SET_GOODS', payload: data })
+	}
 	value.addToOrder = goodItem => {
-		dispatch({ type: 'ADD_TO_ORDER', payload: goodItem });
-	};
+		dispatch({ type: 'ADD_TO_ORDER', payload: goodItem })
+	}
 	value.setCartOpen = () => {
-		dispatch({ type: 'SET_CART_OPEN' });
-	};
+		dispatch({ type: 'SET_CART_OPEN' })
+	}
 	value.incQuantity = id => {
-		dispatch({ type: 'INC_QUANTITY', payload: id });
-	};
+		dispatch({ type: 'INC_QUANTITY', payload: id })
+	}
 	value.decQuantity = id => {
-		dispatch({ type: 'DEC_QUANTITY', payload: id });
-	};
+		dispatch({ type: 'DEC_QUANTITY', payload: id })
+	}
 	value.removeFromOrder = id => {
-		dispatch({ type: 'REMOVE_FROM_ORDER', payload: id });
-	};
+		dispatch({ type: 'REMOVE_FROM_ORDER', payload: id })
+	}
 	value.closeAlert = id => {
-		dispatch({ type: 'CLOSE_ALERT', payload: id });
-	};
+		dispatch({ type: 'CLOSE_ALERT', payload: id })
+	}
 
-	return <Context.Provider value={value}>{children}</Context.Provider>;
-};
+	return <Context.Provider value={value}>{children}</Context.Provider>
+}
 
-export { ContextProvider };
+export { ContextProvider }

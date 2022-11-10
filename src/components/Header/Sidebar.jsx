@@ -19,7 +19,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     Image by Creative_haton Freepik
                 </a>
                 <Divider />
-                <Paper sx={{ width: 8 / 9, height: 1 / 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, textAlign: 'center' }}>
+                <Paper elevation={8}
+                    sx={{ borderRadius: 3, width: 8 / 9, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, textAlign: 'center' }}>
                     <a href="https://u24.gov.ua/"
                         target="_blank"
                         rel="noreferrer"

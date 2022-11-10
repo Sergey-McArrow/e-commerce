@@ -6,7 +6,7 @@ import { Context } from '../../context'
 import { CartItem } from './CartItem'
 
 const Cart = () => {
-    const { orders, isCartOpen, setCartOpen, } = useContext(Context)
+    const { orders, isCartOpen, setCartOpen } = useContext(Context)
 
     const totalPrice = orders.reduce((acc, order) => {
         return acc + order.price * order.quantity
@@ -20,6 +20,7 @@ const Cart = () => {
             open={isCartOpen}
             onClose={setCartOpen}
             onOpen={setCartOpen}
+            data-testid='cart'
             sx={{ minWidth: 1 / 3 }}
         >
             <List >
@@ -46,8 +47,8 @@ const Cart = () => {
                     component="form"
                 >
                     {orders.length ? (
-                        orders.map((order, index) =>
-                            <CartItem key={order.id} {...order} index={index} />
+                        orders.map((order) =>
+                            <CartItem key={order.id} {...order} />
                         )
 
                     ) : <ListItemText

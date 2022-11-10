@@ -1,77 +1,52 @@
-import { render, within, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { CartItem } from './CartItem'
-
-import { ContextProvider } from '../../context'
-import { Header } from '../Header'
-import { GoodItem } from '../Goods/GoodItem'
-import { useContext } from 'react'
-
-
-// const TestProvider = ({ children }) => {
-//     const [isLoggedIn, toggleLoginStatus] = useContext(false)
-
-//     const toggleLogin = () => {
-//         toggleLoginStatus(!isLoggedIn)
-//     }
-
-//     return (
-//         <ContextProvider value={{ toggleLogin, isLoggedIn }}>
-//             <div>Message: {children}</div>
-//         </ContextProvider>
-//     )
-// }
-
-const mockItem = {
-    description: "Keep it seamless.",
-    name: "Side Shuffle",
-    price: 500,
-    image: "https://media.fortniteapi.io/images/3038b07d09f6292f41a0cad6a5f426af/featured.png",
-    quantity: 0
-}
+import { Cart } from './Cart'
+import { Context } from '../../context'
+import {
+	EMPTY_CART_MOCK_DATA,
+	NOT_EMPTY_CART_MOCK_DATA,
+	SEVERAL_GOODS_ORDERS_CART_MOCK_DATA,
+} from '../../mock'
 
 describe('Test CartItem', () => {
+	function renderWithProvider(value) {
+		return render(
+			<Context.Provider value={value}>
+				<Cart />
+			</Context.Provider>,
+		)
+	}
 
-    it('changing quantity working with Reducer', () => {
-        let incQuantity = jest.fn()
-        incQuantity.mockReturnValue({ ...mockItem, quantity: mockItem.quantity++ })
-        let decQuantity = jest.fn()
-        decQuantity.mockReturnValue({ ...mockItem, quantity: mockItem.quantity-- })
+	describe('cart is empty', () => {
+		beforeEach(() => {
+			renderWithProvider(EMPTY_CART_MOCK_DATA)
+		})
 
-        const { getByTestId, getByText } = render(
-            <ContextProvider>
+		it('should render correctly', () => {
+			expect(screen.getByTestId('cart')).toBeInTheDocument()
+			expect(screen.getByText(/Cart is empty/)).toBeInTheDocument()
+			expect(screen.getByText(/Total/)).toBeInTheDocument()
+			expect(screen.getByText(/0/)).toBeInTheDocument()
+		})
+	})
 
-                <CartItem item={mockItem} />
-            </ContextProvider>
-        )
-        // const quantity = getByTestId('quantity')
-        // userEvent.click(getByTestId('addToCart'))
-        // userEvent.click(getByTestId('cart'))
-        // userEvent.click(getByTestId('increment'))
-        // screen.debug()
-        // expect(incQuantity).toHaveBeenCalledTimes(1)
-        // expect(quantity).toHaveTextContent('2')
-        // userEvent.click(getByTestId('decrement'))
-        // expect(decQuantity).toHaveBeenCalledTimes(1)
-        // expect(quantity).toHaveTextContent('1')
+	describe('cart contain items', () => {
+		beforeEach(() => {
+			renderWithProvider(NOT_EMPTY_CART_MOCK_DATA)
+		})
+		it('should display item correctly', () => {
+			expect(screen.getByText(/Side Shuffle/)).toBeInTheDocument()
+			expect(screen.getByTestId('price', { name: '500' })).toBeInTheDocument()
+		})
+	})
 
-        // quantity.getByText('1')
-        // expect(getByTestId('quantity')).toHaveTextContent('1')
-        // const span = within(quantity).getByText('1')
-        // userEvent.click(getByTestId('decrement'))
-        // expect(quantity.parentNode.childNodes).toHaveTextContent('2')
-        // userEvent.click(getByTestId('increment'))
-        // expect(quantity.parentNode.childNodes).toHaveTextContent('1')
-    })
-    // it('increment working with Reducer', () => {
-    //     // ARRANGE
-    //     render(<CartItem />)
-    //     // ACT
-    //     userEvent.click(screen.getByTestId('increment'))
-    //     let initialValue = 0
-    //     // ASSERT
-    //     expect(screen.getByTestId('quantity')).toHaveTextContent(initialValue.toString())
-    //     initialValue++
-    // })
+	describe('cart conatin several items', () => {
+		beforeEach(() => {
+			renderWithProvider(SEVERAL_GOODS_ORDERS_CART_MOCK_DATA)
+		})
+		it('cart render multiple items', () => {
+			expect(screen.getAllByText(/Test./)).toHaveLength(4)
+			expect(screen.getAllByTestId('price')).toHaveLength(4)
+		})
+	})
 })

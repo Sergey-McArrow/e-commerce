@@ -36,34 +36,27 @@ const reducer = (state, { type, payload }) => {
 		}
 
 		case 'INC_QUANTITY': {
-			const incQuantity = state.orders.map(order => {
-				if (order.id === payload) {
-					// if (order.quantity === 1) {
-					// 	state.orders.filter(order => order.id !== payload);
-					// }
-					return {
-						...order,
-						quantity: order.quantity++,
-					}
-				} else {
-					return order
-				}
-			})
-			return { ...state, orders: incQuantity }
+			const newQuantity = state.orders.map(order =>
+				order.id === payload
+					? {
+							...order,
+							quantity: order.quantity + 1,
+					  }
+					: order,
+			)
+			return { ...state, orders: newQuantity }
 		}
 
 		case 'DEC_QUANTITY': {
-			let decQuantity = state.orders.map(order => {
-				if (order.id === payload) {
-					return {
-						...order,
-						quantity: order.quantity--,
-					}
-				} else {
-					return order
-				}
-			})
-			return { ...state, orders: decQuantity }
+			let newQuantity = state.orders.map(order =>
+				order.id === payload
+					? {
+							...order,
+							quantity: order.quantity - 1,
+					  }
+					: order,
+			)
+			return { ...state, orders: newQuantity }
 		}
 
 		case 'REMOVE_FROM_ORDER':
