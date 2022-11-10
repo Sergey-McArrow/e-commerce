@@ -20,13 +20,11 @@ const reducer = (state, { type, payload }) => {
 
 				newOrder = [...state.orders, newItem]
 			} else {
-				newOrder = state.orders.map((order, index) => {
-					if (index === itemIndex) {
-						return { ...order, quantity: order.quantity + 1 }
-					} else {
-						return order
-					}
-				})
+				newOrder = state.orders.map((order, index) =>
+					index === itemIndex
+						? { ...order, quantity: order.quantity + 1 }
+						: order,
+				)
 			}
 			return {
 				...state,

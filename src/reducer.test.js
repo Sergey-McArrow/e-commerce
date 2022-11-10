@@ -7,8 +7,6 @@ import {
 import { reducer } from './reducer'
 
 describe('Reducer tests', () => {
-	beforeEach(() => {})
-
 	it('should set goods', () => {
 		const actionSetGoods = {
 			type: 'SET_GOODS',

@@ -22,7 +22,8 @@ export const CartItem = ({ id, name, price, quantity }) => {
                         <RemoveIcon
                             onClick={() => decQuantity(id)}
                             sx={{ fontSize: `${matches ? '1.8rem' : '1rem'}` }}
-                            data-testid="decrement" />}
+                            data-testid="decrement" />
+                    }
                 </ListItemText>
                 <Typography
                     sx={{ m: '0 10px', fontSize: `${matches ? '1.8rem' : '1rem'}` }}
