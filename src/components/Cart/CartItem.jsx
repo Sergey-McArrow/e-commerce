@@ -10,7 +10,6 @@ export const CartItem = ({ id, name, price, quantity }) => {
 
     const { incQuantity, decQuantity, removeFromOrder } = useContext(Context)
     const matches = useMediaQuery('(min-width:600px)')
-    console.log(quantity)
 
     return (
         <ListItem sx={{ minHeight: 96, justifyContent: 'space-between', borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}>
@@ -23,7 +22,8 @@ export const CartItem = ({ id, name, price, quantity }) => {
                         <RemoveIcon
                             onClick={() => decQuantity(id)}
                             sx={{ fontSize: `${matches ? '1.8rem' : '1rem'}` }}
-                            data-testid="decrement" />}
+                            data-testid="decrement" />
+                    }
                 </ListItemText>
                 <Typography
                     sx={{ m: '0 10px', fontSize: `${matches ? '1.8rem' : '1rem'}` }}
@@ -37,7 +37,7 @@ export const CartItem = ({ id, name, price, quantity }) => {
                         data-testid="increment" />
                 </ListItemText>
             </Stack>
-            <ListItemText primaryTypographyProps={{ fontSize: `${matches ? '1.8rem' : '1rem'}`, textAlign: 'center' }}  >
+            <ListItemText primaryTypographyProps={{ fontSize: `${matches ? '1.8rem' : '1rem'}`, textAlign: 'center' }} data-testid='price' >
                 {price} $
             </ListItemText>
             <Close onClick={() => removeFromOrder(id)} />

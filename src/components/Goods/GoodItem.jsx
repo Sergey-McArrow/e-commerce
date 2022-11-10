@@ -40,17 +40,17 @@ const GoodItem = (goodsItem) => {
                 )}
                 <ThemeProvider theme={theme}>
                     <CardContent sx={{ textAlign: 'center' }}>
-                        <Typography gutterBottom variant="h5" component="div" sx={{ height: '2rem' }}>
+                        <Typography gutterBottom variant="h5" component="div" sx={{ height: '2rem' }} data-testid='name'>
                             {name}
                         </Typography>
-                        <Typography sx={{ height: '2rem', py: 3 }} >
+                        <Typography sx={{ height: '2rem', py: 3 }} data-testid='description'>
                             {description}
                         </Typography>
                     </CardContent>
                 </ThemeProvider>
             </CardActionArea>
             <CardActions sx={{ justifyContent: 'space-around', width: 1 / 1, py: 2 }}>
-                <Typography>
+                <Typography data-testid='price'>
                     {price} $
                 </Typography>
                 <Button variant='outlined' size="small" color="primary" data-testid="addToCart" onClick={() => addToOrder(goodsItem)} >

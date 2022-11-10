@@ -12,7 +12,7 @@ const Header = ({ setTheme, theming }) => {
     const { setCartOpen, orders } = useContext(Context)
     const [sidebarOpen, setSidebarOpen] = useState(false)
 
-    const ordersLength = orders.reduce((sum, order) => { return sum + order.quantity }, 0)
+    const ordersLength = orders.length ? orders.reduce((sum, order) => { return sum + order.quantity }, 0) : 0
 
     return (
         <AppBar position="static" sx={{ color: '#efebe9' }}>
