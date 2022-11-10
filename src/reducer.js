@@ -5,85 +5,76 @@ const reducer = (state, { type, payload }) => {
 				...state,
 				goods: payload || [],
 				loading: false,
-			};
+			}
 
 		case 'ADD_TO_ORDER': {
 			const itemIndex = state.orders.findIndex(
 				orderItem => orderItem.id === payload.id,
-			);
-			let newOrder;
+			)
+			let newOrder
 			if (itemIndex < 0) {
 				const newItem = {
 					...payload,
 					quantity: 1,
-				};
+				}
 
-				newOrder = [...state.orders, newItem];
+				newOrder = [...state.orders, newItem]
 			} else {
-				newOrder = state.orders.map((order, index) => {
-					if (index === itemIndex) {
-						return { ...order, quantity: order.quantity + 1 };
-					} else {
-						return order;
-					}
-				});
+				newOrder = state.orders.map((order, index) =>
+					index === itemIndex
+						? { ...order, quantity: order.quantity + 1 }
+						: order,
+				)
 			}
 			return {
 				...state,
 				orders: newOrder,
 				alertName: payload.name,
-			};
+			}
 		}
 
 		case 'INC_QUANTITY': {
-			const incQuantity = state.orders.map(order => {
-				if (order.id === payload) {
-					if (order.quantity === 1) {
-						state.orders.filter(order => order.id !== payload);
-					}
-					return {
-						...order,
-						quantity: order.quantity++,
-					};
-				} else {
-					return order;
-				}
-			});
-			return { ...state, orders: incQuantity };
+			const newQuantity = state.orders.map(order =>
+				order.id === payload
+					? {
+							...order,
+							quantity: order.quantity + 1,
+					  }
+					: order,
+			)
+			return { ...state, orders: newQuantity }
 		}
 
 		case 'DEC_QUANTITY': {
-			let decQuantity = state.orders.map(order => {
-				if (order.id === payload) {
-					return {
-						...order,
-						quantity: order.quantity--,
-					};
-				} else {
-					return order;
-				}
-			});
-			return { ...state, orders: decQuantity };
+			let newQuantity = state.orders.map(order =>
+				order.id === payload
+					? {
+							...order,
+							quantity: order.quantity - 1,
+					  }
+					: order,
+			)
+			return { ...state, orders: newQuantity }
 		}
 
 		case 'REMOVE_FROM_ORDER':
 			return {
 				...state,
 				orders: state.orders.filter(order => order.id !== payload),
-			};
+			}
 
 		case 'SET_CART_OPEN':
 			return {
 				...state,
 				isCartOpen: !state.isCartOpen,
-			};
+			}
 
 		case 'CLOSE_ALERT':
-			return { ...state, alertName: '' };
+			return { ...state, alertName: '' }
 
 		default:
-			return state;
+			return state
 	}
-};
+}
 
-export { reducer };
+export { reducer }

@@ -1,24 +1,18 @@
-import { SwipeableDrawer, ListItem, List, ListItemText, useMediaQuery } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { SwipeableDrawer, ListItem, List, ListItemText, useMediaQuery, Button, Divider } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
 
 import React, { useContext } from 'react'
 import { Context } from '../../context'
-import { CartItem } from './CartItem';
-import { deepPurple } from '@mui/material/colors';
-
-
-
+import { CartItem } from './CartItem'
 
 const Cart = () => {
-    const { orders, isCartOpen, setCartOpen, } = useContext(Context)
-
+    const { orders, isCartOpen, setCartOpen } = useContext(Context)
 
     const totalPrice = orders.reduce((acc, order) => {
-        return acc + order.price * order.quantity;
-    }, 0);
+        return acc + order.price * order.quantity
+    }, 0)
 
-    const matches = useMediaQuery('(min-width:400px)');
-
+    const matches = useMediaQuery('(min-width:400px)')
 
     return (
         <SwipeableDrawer
@@ -26,11 +20,13 @@ const Cart = () => {
             open={isCartOpen}
             onClose={setCartOpen}
             onOpen={setCartOpen}
+            data-testid='cart'
+            sx={{ minWidth: 1 / 3 }}
         >
-            <List sx={{ background: deepPurple[100] }} >
+            <List >
                 {orders.length ?
                     (
-                        <ListItem sx={{ background: deepPurple[200] }}>
+                        <ListItem >
                             <ListItemText variant='h3' primaryTypographyProps={{ fontSize: `${matches ? '1.8rem' : '1rem'}`, textAlign: 'center' }}  >
                                 Title
                             </ListItemText>
@@ -43,16 +39,26 @@ const Cart = () => {
                             <CloseIcon onClick={setCartOpen} />
                         </ListItem>
                     ) : null}
+                <Divider />
                 <List sx={{
-                    justifyContent: 'space-between', display: 'flex',
+                    justifyContent: 'space-between', display: 'flex', gap: '0.5rem',
                     alignItems: 'center', pt: 5, flexDirection: 'column'
-                }}>
+                }}
+                    component="form"
+                >
                     {orders.length ? (
-                        orders.map((order, index) =>
-                            <CartItem key={order.id} {...order} index={index} />)
+                        orders.map((order) =>
+                            <CartItem key={order.id} {...order} />
+                        )
 
-                    ) : <ListItemText variant='h3' primaryTypographyProps={{ fontSize: `${matches ? '1.8rem' : '1rem'}`, textAlign: 'center' }} sx={{ justifyContent: 'space-between', p: 2 }} >Cart is empty</ListItemText>}
-                    <ListItem sx={{ justifyContent: 'space-between', background: deepPurple[200] }}>
+                    ) : <ListItemText
+                        variant='h3'
+                        primaryTypographyProps={{ fontSize: `${matches ? '1.8rem' : '1rem'}`, textAlign: 'center' }}
+                        sx={{ justifyContent: 'space-between', p: 2 }}
+                    >
+                        Cart is empty
+                    </ListItemText>}
+                    <ListItem sx={{ justifyContent: 'space-between' }}>
                         <ListItemText variant='h3' primaryTypographyProps={{ fontSize: `${matches ? '1.8rem' : '1.2rem'}`, textAlign: 'right' }} >
                             Total:
                         </ListItemText>
@@ -60,6 +66,9 @@ const Cart = () => {
                             {totalPrice} $
                         </ListItemText>
                     </ListItem>
+                    {orders.length ? (<Button type='submit' onClick={() => alert(`You have successfully purchase something for ${totalPrice} USD`)} variant='contained' sx={{ width: 1 / 3, alignSelf: 'center', my: 3 }}>
+                        checkout
+                    </Button>) : null}
                 </List>
             </List>
         </SwipeableDrawer >

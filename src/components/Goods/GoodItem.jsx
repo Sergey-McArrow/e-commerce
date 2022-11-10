@@ -4,7 +4,7 @@ import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typo
 import { Context } from '../../context'
 
 
-import { createTheme, responsiveFontSizes, ThemeProvider } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes, ThemeProvider } from '@mui/material/styles'
 
 
 
@@ -12,11 +12,11 @@ const GoodItem = (goodsItem) => {
     const { addToOrder } = useContext(Context)
     const { name, image, description, price } = goodsItem
 
-    const matchesM = useMediaQuery('(min-width:700px)');
-    const matchesS = useMediaQuery('(min-width:500px)');
+    const matchesM = useMediaQuery('(min-width:700px)')
+    const matchesS = useMediaQuery('(min-width:500px)')
 
-    let theme = createTheme();
-    theme = responsiveFontSizes(theme);
+    let theme = createTheme()
+    theme = responsiveFontSizes(theme)
 
     return (
         <Card sx={{ width: `${matchesM ? '30%' : matchesS ? '50%' : '90%'}`, maxWidth: `${matchesS ? '45%' : '90%'}`, flexGrow: 1, }}>
@@ -40,20 +40,20 @@ const GoodItem = (goodsItem) => {
                 )}
                 <ThemeProvider theme={theme}>
                     <CardContent sx={{ textAlign: 'center' }}>
-                        <Typography gutterBottom variant="h5" component="div" sx={{ height: '2rem' }}>
+                        <Typography gutterBottom variant="h5" component="div" sx={{ height: '2rem' }} data-testid='name'>
                             {name}
                         </Typography>
-                        <Typography sx={{ height: '2rem', py: 3 }} >
+                        <Typography sx={{ height: '2rem', py: 3 }} data-testid='description'>
                             {description}
                         </Typography>
                     </CardContent>
                 </ThemeProvider>
             </CardActionArea>
             <CardActions sx={{ justifyContent: 'space-around', width: 1 / 1, py: 2 }}>
-                <Typography>
+                <Typography data-testid='price'>
                     {price} $
                 </Typography>
-                <Button size="small" color="primary" onClick={() => addToOrder(goodsItem)} >
+                <Button variant='outlined' size="small" color="primary" data-testid="addToCart" onClick={() => addToOrder(goodsItem)} >
                     Add to Cart
                 </Button>
             </CardActions>

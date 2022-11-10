@@ -17,6 +17,7 @@ const AddedAlert = () => {
         <Alert sx={{
             position: 'fixed',
             right: 0,
+            zIndex: 10,
         }} severity="success"> {alertName} was added to Cart!</Alert>
     )
 }
