@@ -21,7 +21,7 @@ const social = [
 const Footer = () => {
     return (
         <Box position="static" sx={{ p: 2, bgcolor: '#3f51b5', color: '#efebe9' }}>
-            <Typography> Made by S.McArrow just for fun </Typography>
+            <Typography> Made by S.McArrow </Typography>
             <Typography> © {new Date().getFullYear()} All rights reserved </Typography>
 
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>

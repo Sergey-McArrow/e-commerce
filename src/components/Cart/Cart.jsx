@@ -21,7 +21,7 @@ const Cart = () => {
             onClose={setCartOpen}
             onOpen={setCartOpen}
             data-testid='cart'
-            sx={{ minWidth: 1 / 3 }}
+            sx={{ minWidth: '40%' }}
         >
             <List >
                 {orders.length ?
